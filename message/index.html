@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/chat.css">
+    <!-- Bootstrap CSS -->
+    <style>
+        .bg-f2 {
+            background-color: #f8f9fa;
+        }
+
+        video {
+            width: 320px;
+            height: auto;
+        }
+
+        .videoRow {
+            margin-top: 30px;
+        }
+
+        #previewLabel {
+            display: block;
+            position: absolute;
+        }
+    </style>
+    <title class="message">房间消息功能</title>
+</head>
+
+<body class="bg-f2">
+
+<div class="container">
+
+    <div class="my-3 p-3 bg-white rounded box-shadow small">
+
+        <h6 class="border-bottom border-gray pb-2 mb-0 message">房间消息功能</h6>
+
+        <div class="row" style="margin-top:1%">
+
+            <div class="col-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="audioList"><strong
+                                class="text-gray-dark audioDevices">音频设备</strong></label>
+                    </div>
+                    <select class="custom-select" id="audioList" style="width: 20%">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="videoList"><strong
+                                class="text-gray-dark videoDevices">视频设备</strong></label>
+                    </div>
+                    <select class="custom-select" id="videoList" style="width: 50%">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="roomId"><strong class="text-gray-dark roomid">房间号</strong></label>
+                    </div>
+                    <input type="email" class="form-control d-inline" id="roomId" style="width: 50%"
+                           aria-describedby="emailHelp" placeholder="please enter room ID">
+                </div>
+            </div>
+
+            <!-- <div class="col-sm">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="memberList"><strong class="text-gray-dark userlist">房间人员</strong></label>
+                  </div>
+                  <select class="custom-select" id="memberList" style="width: 60%">
+                  </select>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" id="createRoom" class="btn btn-primary btn-sm enterRoomPush">进入房间并推流</button>
+                <button type="button" id="newMember" class="btn btn-primary btn-sm">新增成员进入房间</button>
+                <button type="button" id="leaveRoom" class="btn btn-secondary btn-sm leaveRoom">退出</button>
+                <button type="button" id="BroadcastMessage" class="btn btn-primary btn-sm barrage">广播消息</button>
+                <button type="button" id="BarrageMessage" class="btn btn-primary btn-sm barrage">弹幕消息</button>
+                <button type="button" id="sendCustomrMsg" class="btn btn-primary btn-sm customMessage">发送自定义信令</button>
+                <button type="button" id="ReliableMessage" class="btn btn-primary btn-sm">房间附加信息</button>
+            </div>
+        </div>
+
+        <div class="row videoRow">
+            <div class="col-sm">
+                <label id="previewLabel" class="text-white"></label>
+                <video id="previewVideo" autoplay muted playsinline></video>
+            </div>
+            <div class="col-sm remoteVideo hidden" id="newMemberMes">
+                <!-- <video  autoplay muted playsinline></video> -->
+                新成员userID:<p id="newMemberID"></p>
+                新成员userName:<p id="newMemberName"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast fade " role="alert" aria-live="assertive" aria-atomic="true" id="toast">
+      <div class="toast-body" id="toastBody">
+
+      </div>
+    </div>
+
+</div>
+
+<div class="chatContainer">
+    <div class="chatBtn">
+        <i class="iconfont icon-xiaoxi1"></i>
+    </div>
+    <div class="chat-message-num" id="chatMessageNum">0</div>
+    <div class="chatBox" ref="chatBox">
+
+        <div class="chatBox-info" id="chatBoxInfo">
+            
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+  <script src="../assets/js/jquery-3.3.1.min.js"></script>
+  <script src="../assets/js/ZegoExpressWebRTC-2.8.0.js"></script>
+  <script src="./message.js"></script>
+</body>
+</html>

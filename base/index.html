@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+
+    <style>
+        .bg-f2 {
+          background-color: #f8f9fa;
+        }
+    
+        video {
+          width: 320px;
+          height: auto;
+        }
+    
+        .videoRow {
+          margin-top: 30px;
+        }
+    
+        #previewLabel {
+          display: block;
+          position: absolute;
+        }
+      </style>
+</head>
+<body class="bg-f2">
+    <div class="container">
+  
+      <div class="my-3 p-3 bg-white rounded box-shadow small">
+  
+        <h6 class="border-bottom border-gray pb-2 mb-0">基础推拉流</h6>
+  
+        <div class="row" style="margin-top:1%">
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="audioList"><strong class="text-gray-dark">音频设备</strong></label>
+              </div>
+              <select class="custom-select" id="audioList">
+              </select>
+            </div>
+          </div>
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoList"><strong class="text-gray-dark">视频设备</strong></label>
+              </div>
+              <select class="custom-select" id="videoList">
+              </select>
+            </div>
+          </div>
+  
+          <!-- <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="playMode"><strong
+                    class="text-gray-dark playMode">拉流模式</strong></label>
+              </div>
+              <select class="custom-select" id="playMode">
+                <option value="auto" class="auto">默认（自动）</option>
+                <option value="video" class="onlyVideo">只拉视频</option>
+                <option value="audio" class="onlyAudio">只拉音频</option>
+                <option value="all" class="all">拉音视频</option>
+              </select>
+            </div>
+          </div> -->
+  
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="roomId"><strong class="text-gray-dark">房间号</strong></label>
+              </div>
+              <input type="email" class="form-control d-inline" id="roomId" aria-describedby="emailHelp"
+                placeholder="请输入房间号">
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="row">
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="AEC"><strong class="text-gray-dark">回声消除</strong></label>
+              </div>
+              <select class="custom-select" id="AEC">
+                <option value="1" class="auto">是</option>
+                <option value="0" class="onlyVideo">否</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="AGC"><strong class="text-gray-dark">自动增益</strong></label>
+              </div>
+              <select class="custom-select" id="AGC">
+                <option value="1" class="auto">是</option>
+                <option value="0" class="onlyVideo">否</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="ANS"><strong class="text-gray-dark">噪声抑制</strong></label>
+              </div>
+              <select class="custom-select" id="ANS">
+                <option value="1" class="auto">是</option>
+                <option value="0" class="onlyVideo">否</option>
+              </select>
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="row">
+          <div class="col-sm">
+            <button type="button" id="createRoom" class="btn btn-primary btn-sm">创建房间预览推流</button>
+            <button type="button" id="createRoomNoPublish" class="btn btn-primary btn-sm">创建房间只预览</button>
+            <button type="button" id="publishStream" class="btn btn-primary btn-sm">推流</button>
+            <button type="button" id="openRoom" class="btn btn-primary btn-sm">进入房间</button>
+            <button type="button" id="leaveRoom" class="btn btn-secondary btn-sm">退出</button>
+            <button type="button" id="newMember" class="btn btn-primary btn-sm" disabled>新用户进入房间拉流</button>
+            <!-- <button type="button" id="createRoomCdn" class="btn btn-primary btn-sm">创建房间(转推cdn)</button> -->
+            <!-- <button type="button" id="toggleCamera" class="btn btn-primary btn-sm enableCamera">启用/关闭摄像头</button> -->
+            <!-- <button type="button" id="toggleSpeaker" class="btn btn-primary btn-sm enableMicrophone">启用/关闭麦克风</button> -->
+            <!-- <button type="button" id="setLocalAudioOutput" class="btn btn-primary btn-sm">更改输出设备</button> -->
+          </div>
+        </div>
+  
+        <div class="row" style="margin-top:1%">
+          <div class="col-sm">
+            <!-- <button type="button" id="setLocalAudioOutput" class="btn btn-primary btn-sm">更改输出设备</button>
+            <button type="button" id="getAudioInfo" class="btn btn-primary btn-sm">获取推流音频信息</button>
+            <button type="button" id="stopgetAudioInfo" class="btn btn-primary btn-sm">stop获取推流音频信息</button>
+            <button type="button" id="getAudioPCM" class="btn btn-primary btn-sm">获取音频pcm数据</button>
+            <button type="button" id="downloadWAV" class="btn btn-primary btn-sm">下载wav</button>
+            <button type="button" id="stopPCM" class="btn btn-primary btn-sm">停止获取PCM</button> -->
+            <!-- <button type="button" id="switchVideo" class="btn btn-primary btn-sm">更改视频输入设备</button> -->
+            <!-- <button type="button" id="switchAudio" class="btn btn-primary btn-sm">更改音频输入设备</button> -->
+          </div>
+        </div>
+  
+        <div class="row videoRow" id="createRoom">
+          <div class="col-sm-6">
+            <label id="previewLabel" class="text-white">local-video</label>
+            <video id="previewVideo" autoplay muted playsinline></video>
+          </div>
+          <div class="col-sm-6 remoteVideo">
+            <label id="remoteLabel" style="position: absolute;" class="text-white">remote-video</label>
+            <video id="remoteVideo" autoplay muted playsinline></video>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+  </body>
+  <script src="../assets/js/jquery-3.3.1.min.js"></script>
+  <script src="../assets/js/ZegoExpressWebRTC-2.8.0.js"></script>
+  <script src="./base.js"></script>
+</html>
