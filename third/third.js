@@ -71,7 +71,7 @@ zg = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
 
 //创建流
-async function createStream(mediaId){
+async function createStream(source){
     if(!loginState){
         await login(zg,roomID);
     }
@@ -79,7 +79,7 @@ async function createStream(mediaId){
     // 调用 createStream 接口后，需要等待 ZEGO 服务器返回流媒体对象才能执行后续操作
     localStream = await zg.createStream({
         custom: {
-            source: $(mediaId)[0],
+            source: source,
             bitrate: $('#audioBitrate').val() * 1,
             channelCount: $('#channelCount').val() * 1
         }
@@ -102,19 +102,87 @@ zg.on('publisherStateUpdate', resulte => {
     }
 });
 //推第三方视频
-$('#externalCaptureV').on('click',function(){
+$('#externalCaptureV').on('click',async function(){
     roomID = $('#roomId').val();
     streamID = 'streamID-'+new Date().getTime();
-    createStream('#externerVideo')
+    let media = await changeStream($('#externerVideo')[0], {width: null, height: null})
+    
+    createStream(media);
 })
 //推第三方音频
 $('#externalCaptureA').on('click',function(){
     roomID = $('#roomId').val();
     streamID = 'streamID-'+new Date().getTime();
-    createStream('#externerAudio');
+    createStream($('#externerAudio')[0]);
 })
 //退出房间
 $('#leaveRoom').on('click',function(){
     roomID = $('#roomId').val();
     logoutRoom(zg,roomID,streamID,'previewVideo');
 })
+
+function changeStream(source, config) {
+    var version = getChromeVersion();
+    if (version < 87.5) {
+        return source
+    }
+    return new Promise((resolve, reject) => {
+        let video = source;
+        console.log(video)
+        console.log(document.getElementById('externerVideo'))
+        let canvas = document.createElement("canvas");
+        canvas.setAttribute("style", "display:none");
+        document.body.append(canvas);
+        let stream = video.captureStream()
+        video.oncanplay = function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            video.play();
+        }
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        console.log(canvas.width, canvas.height)
+        let ctx = canvas.getContext("2d");
+        let media = canvas.captureStream(25);
+        let track = media.getVideoTracks()[0];
+        let draw = function () {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // track.requestFrame && track.requestFrame();
+            var timer = setTimeout(() => {
+                draw();
+            }, 60);
+            // video.srcObject = stream;
+
+        }
+        draw();
+        let q = track.stop
+        track.stop = () => {
+            q.call(track);
+            draw();
+            video.remove();
+            canvas.width = 0;
+            canvas.remove();
+            video = canvas = null;
+        }
+        if (stream instanceof MediaStream && stream.getAudioTracks().length) {
+            let micro = stream.getAudioTracks()[0];
+            media.addTrack(micro)
+        }
+        resolve(media)
+    })
+}
+
+//判断浏览器版本  必须是谷歌88 版本
+function getChromeVersion() {
+    var arr = navigator.userAgent.split(' ');
+    var chromeVersion = '';
+    for (var i = 0; i < arr.length; i++) {
+        if (/chrome/i.test(arr[i]))
+            chromeVersion = arr[i]
+    }
+    if (chromeVersion) {
+        return Number(chromeVersion.split('/')[1].split('.')[0]);
+    } else {
+        return false;
+    }
+}

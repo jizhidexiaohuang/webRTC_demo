@@ -14,7 +14,7 @@
         }
 
         video {
-            width: 320px;
+            width: auto;
             height: auto;
         }
 
@@ -124,7 +124,8 @@
             <div class="col-sm">
                 <label id="previewLabel" class="text-white"></label>
                 <video id="previewVideo" autoplay muted playsinline controls></video>
-                <video id="externerVideo" crossOrigin="anonymous" playsinline autoplay controls src="https://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/big_buck_bunny.mp4" loop></video>
+                <!-- <video id="externerVideo" crossOrigin="anonymous" playsinline autoplay controls src="https://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/big_buck_bunny.mp4" loop></video> -->
+                <video id="externerVideo" crossOrigin="anonymous" playsinline autoplay controls src="../assets/audio/2030.mov" loop></video>
                 <audio id="externerAudio" crossOrigin="anonymous" playsinline autoplay muted controls src="http://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/bike.mp3" loop></audio>
             </div>
             <div class="col-sm remoteVideo">

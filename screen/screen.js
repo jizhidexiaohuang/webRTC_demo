@@ -75,18 +75,19 @@ async function createScreenStream(){
     if(!loginState){
         await login(zg,roomID);
     }
-
-    // 调用 createStream 接口后，需要等待 ZEGO 服务器返回流媒体对象才能执行后续操作
-    screenStream = await zg.createStream({
+    let constraints = {
         screen:{
-            audio: $('#isScreenAudio').val() == 'yes' ? true : false,
+            audio: $('#audioList').val() == '0' ? false : true,
             videoQuality: 4,
             bitrate: $('#screenBitRate').val() * 1,
             frameRate: $('#screenFrameRate').val() * 1,
             width: $('#screenWidth').val() * 1 || screen.width,
             height:  $('#screenHeight').val() * 1 || screen.height
         }
-    });
+    }
+    console.log(constraints)
+    // 调用 createStream 接口后，需要等待 ZEGO 服务器返回流媒体对象才能执行后续操作
+    screenStream = await zg.createStream(constraints);
     
     const publisRes = zg.startPublishingStream(screenStreamId, screenStream);
 }
