@@ -73,7 +73,7 @@ enumDevices(zg);
 //创建流
 async function createScreenStream(){
     if(!loginState){
-        await login(zg,roomID);
+        login(zg,roomID);
     }
     let constraints = {
         screen:{
@@ -88,7 +88,8 @@ async function createScreenStream(){
     console.log(constraints)
     // 调用 createStream 接口后，需要等待 ZEGO 服务器返回流媒体对象才能执行后续操作
     screenStream = await zg.createStream(constraints);
-    
+    localVideo = document.getElementById('localVideo');
+    localVideo.srcObject = screenStream;
     const publisRes = zg.startPublishingStream(screenStreamId, screenStream);
 }
 
