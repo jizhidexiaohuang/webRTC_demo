@@ -91,10 +91,12 @@ async function createStream(publish = true){
     }
 }
 
-let zg, zgNew, roomID, localStream,
+let zg, zgNew, roomID, localStream, remoteStream,
     streamID = 'streamID-'+new Date().getTime();
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
+// zg.setDebugVerbose(false) //关闭debug
+
 zgNew = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
 
@@ -139,7 +141,7 @@ $('#newMember').on('click',async() => {
 
     await login(zgNew,roomID)
 
-    const remoteStream = await zgNew.startPlayingStream(streamID);
+    remoteStream = await zgNew.startPlayingStream(streamID);
     remoteVideo = document.getElementById('remoteVideo');
     remoteVideo.srcObject = remoteStream;
 })
@@ -147,7 +149,7 @@ $('#newMember').on('click',async() => {
 $('#leaveRoom').on('click',function(){
     roomID = $('#roomId').val();
     logoutRoom(zg,roomID,streamID,'previewVideo');
-    if(zgNew){
+    if(remoteStream){
         logoutRoom(zgNew,roomID,streamID,'remoteVideo');
     }
     $('#newMember').attr('disabled',true);
@@ -167,6 +169,15 @@ zg.on('roomStateUpdate', (roomID,state,errorCode,extendedData) => {
     if (state == 'CONNECTED') {
         // 与房间连接成功
     }
+})
+
+// 拉流状态、拉流质量回调
+zg.on('playerStateUpdate',(result)=>{
+    console.log(result)
+})
+zg.on('playQualityUpdate',(result)=>{
+    console.log(result)
+    console.log("playQualityUpdate")
 })
 
 // 用户状态更新回调
