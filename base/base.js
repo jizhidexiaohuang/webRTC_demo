@@ -80,19 +80,14 @@ async function createStream(publish = true){
         }
     });
     // 获取页面的 video 标签
-    // const localVideo = document.getElementById('previewVideo');
+    const localVideo = document.getElementById('previewVideo');
     // stream 为MediaStream对象，开发者可通过赋值给video或audio的srcObject属性进行渲染
 
-    // setTimeout(() => {
-        let video = document.createElement('video');
-        // video.setAttribute('autoplay',true);
-        video.setAttribute('playsinline',true)
-        // video.setAttribute('controls',true)
-        let localVideoDiv = document.getElementById('localVideo');
-        localVideoDiv.append(video);
-        video.srcObject = localStream;
-        video.play();
-    // },1000)
+    // let video = document.createElement('video');
+    // let localVideoDiv = document.getElementById('localVideo');
+    // localVideoDiv.append(video);
+    localVideo.srcObject = localStream;
+    localVideo.play();
 
     // localStream 为创建流获取的 MediaStream 对象
     if(publish){
