@@ -156,11 +156,14 @@
         <div class="row videoRow" id="createRoom">
           <div class="col-sm-6">
             <label id="previewLabel" class="text-white">local-video</label>
-            <video id="previewVideo" muted playsinline autoplay></video>
+            <video id="previewVideo" muted playsinline autoplay webkit-playsinline preload="auto" controls="controls"></video>
           </div>
+
+
+          
           <div class="col-sm-6 remoteVideo">
             <label id="remoteLabel" style="position: absolute;" class="text-white">remote-video</label>
-            <video id="remoteVideo" autoplay muted playsinline webkit-playsinline preload="auto" controls="controls"></video>
+            <video id="remoteVideo" autoplay muted playsinline></video>
           </div>
         </div>
       </div>
