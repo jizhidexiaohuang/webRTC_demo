@@ -87,6 +87,7 @@ async function createStream(publish = true){
         let video = document.createElement('video');
         video.setAttribute('autoplay',true);
         video.setAttribute('playsinline',true)
+        video.setAttribute('controls',true)
         let localVideoDiv = document.getElementById('localVideo');
         localVideoDiv.append(video);
         video.srcObject = localStream;
