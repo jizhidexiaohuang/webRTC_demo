@@ -85,12 +85,13 @@ async function createStream(publish = true){
 
     setTimeout(() => {
         let video = document.createElement('video');
-        video.setAttribute('autoplay',true);
+        // video.setAttribute('autoplay',true);
         video.setAttribute('playsinline',true)
         video.setAttribute('controls',true)
         let localVideoDiv = document.getElementById('localVideo');
         localVideoDiv.append(video);
         video.srcObject = localStream;
+        video.play();
     },1000)
 
     // localStream 为创建流获取的 MediaStream 对象
