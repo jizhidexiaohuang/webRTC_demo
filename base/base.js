@@ -70,14 +70,24 @@ async function createStream(publish = true){
     if(!loginState){
         await login(zg, roomID);
     }
-
+    
+    let config = {
+        AEC: $('#AEC').val() === '1' ? true : false, //回声消除
+        AGC: $('#AGC').val() === '1' ? true : false, //自动增益
+        ANS: $('#ANS').val() === '1' ? true : false, //降噪
+        videoQuality: parseInt($('#videoQuality').val()) ,
+    }
+    console.log($('#videoQuality').val())
+    if(parseInt($('#videoQuality').val()) == 4){
+        config.width = parseInt($('#width').val()),
+        config.height = parseInt($('#height').val()),
+        config.frameRate = parseInt($('#frameRate').val()),
+        config.bitrate = parseInt($('#bitrate').val())
+    }
+    console.log(config)
     // 调用 createStream 接口后，需要等待 ZEGO 服务器返回流媒体对象才能执行后续操作
     localStream = await zg.createStream({
-        camera:{
-            AEC: $('#AEC').val() === '1' ? true : false, //回声消除
-            AGC: $('#AGC').val() === '1' ? true : false, //自动增益
-            ANS: $('#ANS').val() === '1' ? true : false, //降噪
-        }
+        camera:config
     });
     // 获取页面的 video 标签
     const localVideo = document.getElementById('previewVideo');
@@ -100,6 +110,7 @@ let zg, zgNew, roomID, localStream,
     streamID = 'streamID-'+new Date().getTime();
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
+// zg.setLogConfig({logLevel:'disable', remoteLogLevel:'disable'});
 zgNew = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
 
@@ -131,6 +142,15 @@ $('#publishStream').on('click',async() => {
     zg.startPublishingStream(streamID, localStream);
     $('#newMember').attr('disabled',false);
 })
+$('#changeVideoConfig').on('click', async()=>{
+    let res = await zg.setVideoConfig(localStream,{
+        width: parseInt($('#width').val()) ,
+        height: parseInt($('#height').val()) ,
+        frameRate: parseInt($('#frameRate').val()) ,
+        bitrate: parseInt($('#bitrate').val()) ,
+    })
+    console.log(res)
+})
 //进入房间
 $('#openRoom').on('click',function(){
     roomID = $('#roomId').val();
@@ -143,10 +163,12 @@ $('#newMember').on('click',async() => {
     userName = 'new' + new Date().getTime();
 
     await login(zgNew,roomID)
-
-    const remoteStream = await zgNew.startPlayingStream(streamID);
-    remoteVideo = document.getElementById('remoteVideo');
-    remoteVideo.srcObject = remoteStream;
+    setTimeout( async ()=>{
+        const remoteStream = await zgNew.startPlayingStream('webrtc1635499856555');
+        remoteVideo = document.getElementById('remoteVideo');
+        remoteVideo.srcObject = remoteStream;
+    },2000)
+    
 })
 //退出房间
 $('#leaveRoom').on('click',function(){
@@ -176,6 +198,8 @@ zg.on('roomStateUpdate', (roomID,state,errorCode,extendedData) => {
 
 // 用户状态更新回调
 zg.on('roomUserUpdate', (roomID, updateType, userList) => {
+    console.log(userList)
+    console.log('=================')
     console.warn(
         `roomUserUpdate: room ${roomID}, user ${updateType === 'ADD' ? 'added' : 'left'} `,
         JSON.stringify(userList),
@@ -186,6 +210,7 @@ zg.on('roomUserUpdate', (roomID, updateType, userList) => {
 zg.on('roomStreamUpdate', async (roomID, updateType, streamList, extendedData) => {
     if (updateType == 'ADD') {
         // 流新增，开始拉流
+        
     } else if (updateType == 'DELETE') {
         // 流删除，停止拉流
     }

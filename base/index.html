@@ -124,6 +124,67 @@
           </div>
   
         </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoQuality"><strong class="text-gray-dark">videoQuality</strong></label>
+              </div>
+              <select class="custom-select" id="videoQuality">
+                <option value="1" class="auto">1</option>
+                <option value="2" class="onlyVideo">2</option>
+                <option value="3" class="onlyVideo">3</option>
+                <option value="4" class="onlyVideo">4</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="width"><strong class="text-gray-dark">width</strong></label>
+              </div>
+              <input type="text" class="form-control d-inline" id="width" aria-describedby="emailHelp"
+                placeholder="width">
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="height"><strong class="text-gray-dark">height</strong></label>
+              </div>
+              <input type="text" class="form-control d-inline" id="height" aria-describedby="emailHelp"
+                placeholder="height">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="frameRate"><strong class="text-gray-dark">frameRate</strong></label>
+              </div>
+              <input type="text" class="form-control d-inline" id="frameRate" aria-describedby="emailHelp"
+                placeholder="frameRate">
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="bitrate"><strong class="text-gray-dark">bitrate</strong></label>
+              </div>
+              <input type="text" class="form-control d-inline" id="bitrate" aria-describedby="emailHelp"
+                placeholder="bitrate">
+            </div>
+          </div>
+
+        </div>
   
         <div class="row">
           <div class="col-sm">
@@ -131,8 +192,9 @@
             <button type="button" id="createRoomNoPublish" class="btn btn-primary btn-sm">创建房间只预览</button>
             <button type="button" id="publishStream" class="btn btn-primary btn-sm">推流</button>
             <button type="button" id="openRoom" class="btn btn-primary btn-sm">进入房间</button>
+            <button type="button" id="changeVideoConfig" class="btn btn-primary btn-sm">改变分辨率</button>
             <button type="button" id="leaveRoom" class="btn btn-secondary btn-sm">退出</button>
-            <button type="button" id="newMember" class="btn btn-primary btn-sm" disabled>新用户进入房间拉流</button>
+            <button type="button" id="newMember" class="btn btn-primary btn-sm" >新用户进入房间拉流</button>
             <!-- <button type="button" id="createRoomCdn" class="btn btn-primary btn-sm">创建房间(转推cdn)</button> -->
             <!-- <button type="button" id="toggleCamera" class="btn btn-primary btn-sm enableCamera">启用/关闭摄像头</button> -->
             <!-- <button type="button" id="toggleSpeaker" class="btn btn-primary btn-sm enableMicrophone">启用/关闭麦克风</button> -->
@@ -171,7 +233,8 @@
   
   </body>
   <script src="../assets/js/jquery-3.3.1.min.js"></script>
-  <script src="../assets/js/ZegoExpressWebRTC-2.8.0.js"></script>
+  <!-- <script src="../assets/js/ZegoExpressWebRTC-2.8.0.js"></script> -->
+  <script src="../assets/js/ZegoExpressWhiteboardWeb.js"></script>
   <script src="./base.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.0/vconsole.min.js"></script>
   <script>
