@@ -80,6 +80,11 @@ async function createStream( publish = true ){
             video:false
         }
     });
+    console.log('=======')
+    console.log('123123')
+    console.log(localStream)
+    console.log(localStream.getAudioTracks())
+    console.log(localStream.getAudioTracks()[0].label)
     // 获取页面的 video 标签
     const localVideo = document.getElementById('previewVideo');
     // stream 为MediaStream对象，开发者可通过赋值给video或audio的srcObject属性进行渲染

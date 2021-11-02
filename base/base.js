@@ -147,7 +147,7 @@ $('#changeVideoConfig').on('click', async()=>{
         width: parseInt($('#width').val()) ,
         height: parseInt($('#height').val()) ,
         frameRate: parseInt($('#frameRate').val()) ,
-        bitrate: parseInt($('#bitrate').val()) ,
+        maxBitrate: parseInt($('#bitrate').val()) ,
     })
     console.log(res)
 })

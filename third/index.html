@@ -112,9 +112,10 @@
         <div class="row">
             <div class="col-sm">
                 <button type="button" id="externalCaptureV" class="btn btn-primary btn-sm pushThird">推第三方视频</button>
-                <button type="button" id="externalCaptureA" class="btn btn-primary btn-sm ">推第三方音频</button>
+                <button type="button" id="externalCaptureA" class="btn btn-primary btn-sm">推第三方音频</button>
                 <!-- <button type="button" id="openRoom" class="btn btn-primary btn-sm enterRoomPlay">进入房间（不推流）</button> -->
                 <!-- <button type="button" id="changeUrl" class="btn btn-primary btn-sm">替换视频</button> -->
+                <button type="button" class="btn btn-primary btn-sm" id="playingStream">拉流</button>
                 <button type="button" id="leaveRoom" class="btn btn-secondary btn-sm leaveRoom">退出</button>
                 <!-- <input type="file" class="" accept="video/*" id="inputFile" /> -->
             </div>
@@ -129,7 +130,8 @@
                 <audio id="externerAudio" crossOrigin="anonymous" playsinline autoplay muted controls src="http://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/bike.mp3" loop></audio>
             </div>
             <div class="col-sm remoteVideo">
-                <!-- <video  autoplay muted playsinline></video> -->
+              <label id="previewLabel" class="text-white">拉流video</label>
+                <video id="remoteVideo" autoplay muted playsinline></video>
             </div>
         </div>
     </div>

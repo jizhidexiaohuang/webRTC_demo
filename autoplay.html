@@ -1,0 +1,43 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <video id="externerVideo" 
+        autoplay
+        crossorigin="anonymous"  
+        playsinline="" 
+        controls="" 
+        src="https://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/big_buck_bunny.mp4" 
+    ></video> -->
+    <audio id="previewVideo" src="./assets/audio/applaud.mp3" autoplay="true" muted playsinline controls></audio>
+    <button onclick="addVideo()">addVideo</button>
+    <button onclick="addVideoAfter1Second()">addVideoAfter1Second</button>
+    1s内：
+    <div id="externerCon"></div>
+    1s后：
+    <div id="externerCon2"></div>
+
+    <script>
+      const externerCon = document.querySelector("#externerCon")
+      const externerCon2 = document.querySelector("#externerCon2")
+      function addVideo() {
+        setTimeout(() => {
+          externerCon.innerHTML = `<video id="externerVideo" crossorigin="anonymous"  playsinline="" autoplay controls="" src="https://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/big_buck_bunny.mp4" loop=""></video>`
+          let elevideo = document.getElementById('externerVideo')
+          elevideo.addEventListener('play', function () { //播放开始执行的函数
+              console.log("开始播放");
+          });
+        }, 990)
+      }
+      function addVideoAfter1Second() {
+        setTimeout(() => {
+          externerCon2.innerHTML = `<video id="externerVideo" crossorigin="anonymous"  playsinline="" autoplay controls="" src="https://zego-public.oss-cn-shanghai.aliyuncs.com/sdk-doc/assets/big_buck_bunny.mp4" loop=""></video>`
+        }, 1005)
+      }
+    </script>
+  </body>
+</html>

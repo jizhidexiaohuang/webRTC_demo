@@ -106,7 +106,7 @@ $('#externalCaptureV').on('click',async function(){
     roomID = $('#roomId').val();
     streamID = 'streamID-'+new Date().getTime();
     let media = await changeStream($('#externerVideo')[0], {width: null, height: null})
-    
+    console.log(media)
     createStream(media);
 })
 //推第三方音频
@@ -114,6 +114,13 @@ $('#externalCaptureA').on('click',function(){
     roomID = $('#roomId').val();
     streamID = 'streamID-'+new Date().getTime();
     createStream($('#externerAudio')[0]);
+})
+
+//拉流
+$('#playingStream').on('click',async function(){
+    const remoteStream = await zg.startPlayingStream(streamID);
+    let remoteVideo = document.getElementById('remoteVideo')
+    remoteVideo.srcObject = remoteStream
 })
 //退出房间
 $('#leaveRoom').on('click',function(){
