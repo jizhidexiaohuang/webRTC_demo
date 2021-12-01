@@ -1,4 +1,4 @@
-var appID = 1739272706, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
+var appID = 1425366424, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
     appSigin = '5033b4dd1eff10a98f74ec79da8545fdf8dc42d5164d28a2220e7b395d7757d0', // appSigin为即构给客户分配的秘钥，请勿泄漏；（测试环境下是生成token的密码，必填，正式环境需要放到服务端）
     _config = {
         appid: appID * 1,
@@ -104,7 +104,7 @@ $('#createRoom').on('click',function(){
 $('#cdnAddPush').on('click',async () => {
     const result = await zg.addPublishCdnUrl(
         streamID,
-        'rtmp://wsdemo.zego.im/livestream/'+ streamID
+        'rtmp://publish-qcloud-test.zego.im/live/'+ streamID
     )
     if (result.errorCode == 0) {
         console.warn('add push target success');
@@ -119,7 +119,7 @@ $('#cdnAddPush').on('click',async () => {
 $('#cdnDelPush').on('click',async() => {
     const result = await zg.removePublishCdnUrl(
         streamID,
-        'rtmp://wsdemo.zego.im/livestream/'+ streamID
+        'https://play-qcloud-test.zego.im/live/'+ streamID
     )
     if (result.errorCode == 0) {
         console.warn('add push target success');
@@ -132,8 +132,9 @@ $('#cdnDelPush').on('click',async() => {
 //播放cdn
 let cdnFlvPlayer = null;
 $('#cdnPlay').on('click',async () => {
-    const cdnVideoElement = document.getElementById('cdnPlayVideo')
+    const cdnVideoElement = document.getElementById('cdnPlayVideo');
 
+    let cdnStreamID = $('#streamID').val() || streamID;
     if(flvjs.isSupported()){
         if(cdnFlvPlayer !== null){
             cdnFlvPlayer.pused()
@@ -146,7 +147,7 @@ $('#cdnPlay').on('click',async () => {
             {
                 type:'flv',
                 isLive:true,
-                url:`https://hdl-wsdemo.zego.im/livestream/zegotest-${appID}-${streamID}.flv`,
+                url:`https://play-qcloud-test.zego.im/live/${cdnStreamID}.flv`,
                 hasAudio:true,
                 hasVideo:true
             }

@@ -100,6 +100,23 @@
                       </select>
                     </div>
                   </div>
+                  <div class="col-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="streamID"
+                                ><strong class="text-gray-dark streamID">streamID</strong></label
+                            >
+                        </div>
+                        <input
+                            type="text"
+                            class="form-control d-inline"
+                            id="streamID"
+                            style="width: 60%"
+                            aria-describedby="emailHelp"
+                            placeholder="please enter streamID"
+                        />
+                    </div>
+                </div>
                 </div>
 
                 <div class="row">
@@ -110,7 +127,7 @@
                         <!-- <button type="button" id="playCDN" class="btn btn-secondary btn-sm clickPlay">点击播放</button> -->
                         <button type="button" id="cdnAddPush" class="btn btn-primary btn-sm addCdn">增加转推cdn</button>
                         <button type="button" id="cdnDelPush" class="btn btn-primary btn-sm removeCdn" disabled>删除转推cdn</button>
-                        <button type="button" id="cdnPlay" class="btn btn-primary btn-sm cdnPlay" disabled>播放cdn</button>
+                        <button type="button" id="cdnPlay" class="btn btn-primary btn-sm cdnPlay">播放cdn</button>
                     </div>
                 </div>
 
@@ -124,6 +141,7 @@
                         <div id="cdn-container">
                             <video id="cdnPlayVideo" autoplay muted playsinline></video>
                         </div>
+
                         <!-- <video id="cdn" autoplay muted preload="auto"
                         x-webkit-airplay="true"
                         x5-video-player-type="h5-page"
