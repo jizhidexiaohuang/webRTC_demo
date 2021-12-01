@@ -134,7 +134,7 @@ let cdnFlvPlayer = null;
 $('#cdnPlay').on('click',async () => {
     const cdnVideoElement = document.getElementById('cdnPlayVideo');
 
-    let cdnStreamID = $('#streamID').val() || streamID;
+    let cdnStreamID = $('#streamID').val() || `https://play-qcloud-test.zego.im/live/${streamID}.flv`;
     if(flvjs.isSupported()){
         if(cdnFlvPlayer !== null){
             cdnFlvPlayer.pused()
@@ -147,7 +147,7 @@ $('#cdnPlay').on('click',async () => {
             {
                 type:'flv',
                 isLive:true,
-                url:`https://play-qcloud-test.zego.im/live/${cdnStreamID}.flv`,
+                url:cdnStreamID,
                 hasAudio:true,
                 hasVideo:true
             }
