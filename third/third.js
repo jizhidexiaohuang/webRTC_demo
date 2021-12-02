@@ -8,6 +8,7 @@ var tokenUrl = 'https://wsliveroom-alpha.zego.im:8282/token';
 var userID = new Date().getTime() + '';
 var userName = 'u' + new Date().getTime();
 var loginState = false;  //登录状态
+var publisher = false;
 
 // 获取token 登录房间
 async function login(zg,roomID){
@@ -89,7 +90,10 @@ async function createStream(source){
     // stream 为MediaStream对象，开发者可通过赋值给video或audio的srcObject属性进行渲染
     localVideo.srcObject = localStream;
     
-    zg.startPublishingStream(streamID, localStream)
+    if(publisher){
+        await zg.stopPublishingStream(streamID);
+    }
+    publisher = await zg.startPublishingStream(streamID, localStream)
 }
 
 // 流推成功的回调
@@ -101,6 +105,18 @@ zg.on('publisherStateUpdate', resulte => {
         //推流成功
     }
 });
+zg.on('roomStreamUpdate',async function(roomID,updateType,streamList,extendedData){
+    if(updateType=='ADD'){
+        const remoteStream = await zg.startPlayingStream(streamList[0].streamID);
+        let remoteVideo = document.getElementById('remoteVideo')
+        remoteVideo.srcObject = remoteStream;
+    }
+})
+$('#changeVideo').on('click',async ()=>{
+    let media = await changeStream($('#externerVideo1')[0], {width: null, height: null})
+    console.log(media)
+    createStream(media);
+})
 //推第三方视频
 $('#externalCaptureV').on('click',async function(){
     roomID = $('#roomId').val();
