@@ -37,7 +37,7 @@ async function enumDevices(zg) {
     const audioInputList = [],
           videoInputList = [];
     const deviceInfo = await zg.enumDevices();
-
+    console.log(deviceInfo)
     deviceInfo &&
         deviceInfo.microphones.map((item, index) => {
             if (!item.deviceName) {
@@ -111,6 +111,7 @@ let zg, zgNew, roomID, localStream,
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
 // zg.setLogConfig({logLevel:'disable', remoteLogLevel:'disable'});
+zg.setSoundLevelDelegate(true,1000);
 zgNew = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
 
@@ -180,6 +181,19 @@ $('#leaveRoom').on('click',function(){
     $('#newMember').attr('disabled',true);
 })
 
+function useVideoDevice(event) {
+    console.log('修改video设备')
+    console.log(event.target.value)
+    deviceID = event.target.value
+    zg.useVideoDevice(localStream, deviceID)
+}
+function useAudioDevice(event){
+    console.log('修改audio设备')
+    console.log(event.target.value)
+    deviceID = event.target.value
+    zg.useAudioDevice(localStream, deviceID)
+}
+
 // 房间状态更新回调
 zg.on('roomStateUpdate', (roomID,state,errorCode,extendedData) => {
     console.log(state)
@@ -209,10 +223,12 @@ zg.on('roomUserUpdate', (roomID, updateType, userList) => {
 // 流状态更新回调
 zg.on('roomStreamUpdate', async (roomID, updateType, streamList, extendedData) => {
     if (updateType == 'ADD') {
+        console.log('%c ADD', 'font-size: 50px')
         // 流新增，开始拉流
         
     } else if (updateType == 'DELETE') {
         // 流删除，停止拉流
+        console.log('%c DELETE', 'font-size: 50px')
     }
 });
 
@@ -226,6 +242,11 @@ zg.on('publishQualityUpdate', (streamID, stats) => {
     // 推流质量回调
     // ... 
 })
+zg.on('soundLevelUpdate', (data) => {
+    // 推流质量回调
+    // ... 
+    console.log('%c' + data[0].type, 'font-size: 20px')
+})
 
 //推流端音频开/关
 $('#audioList').on('change',() => {
@@ -235,12 +256,12 @@ $('#audioList').on('change',() => {
 })
 
 //推流端摄像头开/关
-$('#videoList').on('change',() => {
-    console.log($('#videoList').val())
-    let mute = $('#videoList').val() == '0' ? true : false; // true 表示不发送视频流
-    const videoStatus = zg.mutePublishStreamVideo(localStream,mute,true);
-    console.log(videoStatus) // true 关闭成功
-})
+// $('#videoList').on('change',() => {
+//     console.log($('#videoList').val())
+//     let mute = $('#videoList').val() == '0' ? true : false; // true 表示不发送视频流
+//     const videoStatus = zg.mutePublishStreamVideo(localStream,mute,true);
+//     console.log(videoStatus) // true 关闭成功
+// })
 
 //拉流端监听
 zgNew.on('remoteCameraStatusUpdate', (streamID, status) => {

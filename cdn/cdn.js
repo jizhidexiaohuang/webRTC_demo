@@ -168,3 +168,6 @@ $('#leaveRoom').on('click',function(){
     roomID = $('#roomId').val();
     logoutRoom(zg,roomID,streamID,'previewVideo');
 })
+window.onpagehide = function () {
+    alert("1");
+}

@@ -42,7 +42,7 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="audioList"><strong class="text-gray-dark">音频设备</strong></label>
               </div>
-              <select class="custom-select" id="audioList">
+              <select class="custom-select" id="audioList" onchange="useAudioDevice(event)">
               </select>
             </div>
           </div>
@@ -52,7 +52,7 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="videoList"><strong class="text-gray-dark">视频设备</strong></label>
               </div>
-              <select class="custom-select" id="videoList">
+              <select class="custom-select" id="videoList" onchange="useVideoDevice(event)">
               </select>
             </div>
           </div>
@@ -219,6 +219,7 @@
           <div class="col-sm-6" id="localVideo">
             <label id="previewLabel" class="text-white">local-video</label>
             <video id="previewVideo" muted playsinline autoplay></video>
+            <!-- <audio id="previewAudio" playsinline controls muted autoplay></audio> -->
           </div>
 
 
@@ -233,7 +234,8 @@
   
   </body>
   <script src="../assets/js/jquery-3.3.1.min.js"></script>
-  <script src="../assets/js/ZegoExpressWebRTC-2.10.1.js"></script>
+  <script src="../assets/js/ZegoExpressWebRTC-2.12.3.js"></script>
+  <!-- <script src="../assets/js/ZegoExpressWebRTC-2.10.1.js"></script> -->
   <!-- <script src="../assets/js/ZegoExpressWhiteboardWeb.js"></script> -->
   <script src="./base.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.9.0/vconsole.min.js"></script>
