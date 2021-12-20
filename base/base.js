@@ -110,7 +110,7 @@ let zg, zgNew, roomID, localStream,
     streamID = 'streamID-'+new Date().getTime();
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
-// zg.setLogConfig({logLevel:'disable', remoteLogLevel:'disable'});
+zg.setLogConfig({logLevel:'debug', remoteLogLevel:'disable'});
 zg.setSoundLevelDelegate(true,1000);
 zgNew = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
