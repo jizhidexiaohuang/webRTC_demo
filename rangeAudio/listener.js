@@ -7,6 +7,7 @@ var tokenUrl = 'https://wsliveroom-alpha.zego.im:8282/token';
 var userID = '456';
 var userName = 'u' + new Date().getTime();
 var loginState = false;  //登录状态
+var positon = 100; // 右边
 
 // 获取token 登录房间
 async function login(zg,roomID){
@@ -90,7 +91,7 @@ async function createStream(){
     rangeAudio.updateSelfPosition(position, axisForward, axisRight, axisUp); // 初始化听者自身的位置和朝向 
     rangeAudio.enableSpatializer(true); //是否开启3D效果 仅对小队外人生效
     rangeAudio.setAudioReceiveRange(500);
-    rangeAudio.updateAudioSource('123', [0, 100, 0]); // 设置发声者的位置 先设置右边【前 右 上】
+    rangeAudio.updateAudioSource('123', [0, positon, 0]); // 设置发声者的位置 先设置右边【前 右 上】
     rangeAudio.enableSpeaker(true); // 打开扬声器
     console.log('打开扬声器===')
 }
@@ -101,7 +102,14 @@ $('#openRoom').on('click',function(){
     createStream()
 })
 $('#changePosition').on('click', function(){
-    rangeAudio.updateAudioSource('123', [0, -100, 0]); //改变发声者的位置到左边
+    if(positon>0){
+        positon = 0- Math.abs(positon);
+        $(this).text('(更新发声者位置)右边');
+    }else{
+        positon = Math.abs(positon);
+        $(this).text('(更新发声者位置)左边');
+    }
+    rangeAudio.updateAudioSource('123', [0, positon, 0]); //改变发声者的位置到左边
 })
 //退出房间
 $('#leaveRoom').on('click',function(){
