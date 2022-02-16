@@ -1,11 +1,13 @@
+// var appID = 1739272706, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
 var appID = 1739272706, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
-    appSigin = '5033b4dd1eff10a98f74ec79da8545fdf8dc42d5164d28a2220e7b395d7757d0', // appSigin为即构给客户分配的秘钥，请勿泄漏；（测试环境下是生成token的密码，必填，正式环境需要放到服务端）
     _config = {
         appid: appID * 1,
         server: 'wss://webliveroom-test.zego.im/ws',//必填，接入服务器地址，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
+        // server: 'wss://webliveroom173230341-api.zego.im/ws'
     };
 var tokenUrl = 'https://wsliveroom-alpha.zego.im:8282/token';
 var userID = new Date().getTime() + '';
+// var userID = '666';
 var userName = 'u' + new Date().getTime();
 var loginState = false;  //登录状态
 
@@ -15,7 +17,8 @@ async function login(zg,roomID){
         app_id:_config.appid,
         id_name:userID
     })
-    const result = await zg.loginRoom(roomID, token, {userID, userName}, {userUpdate: true});
+    // token = '03AAAAAGHxKLAAEDI1b3ZxaHhpbjFrbGF5dzUAoBKelzUy4ku4v9kkIo8PE1gmd1mT58mf9XdvkPHHmYy5ktoMRXTvC3YeR7Svq5ZeSE/44CkvQ4mVQUhrzx+hsugBl8aTm+OTOuRfL1x4LbVFrOzFVaAKEafL7XLLo7RHWf+I74EyusPhLJ3kevA4Wlb8o/j01CWp5e/K50tx3aKmecLqaHD+lr9EjXdchAflGrhX4paA39nQxX8p1eeySC4='
+    const result = await zg.loginRoom(roomID, token, {userID, userName}, {userUpdate: true, maxMemberCount: 10});
     loginState = result;
     return result;
 }
@@ -26,6 +29,7 @@ function logoutRoom(zg,roomID,streamID,domId){
         zg.destroyStream(localStream);
     }
     zg.logoutRoom(roomID);
+    // debugger
     const localVideo = document.getElementById(domId);
     // stream 为MediaStream对象，开发者可通过赋值给video或audio的srcObject属性进行渲染
     localVideo.srcObject = null;
@@ -72,9 +76,9 @@ async function createStream(publish = true){
     }
     
     let config = {
-        AEC: $('#AEC').val() === '1' ? true : false, //回声消除
-        AGC: $('#AGC').val() === '1' ? true : false, //自动增益
-        ANS: $('#ANS').val() === '1' ? true : false, //降噪
+        // AEC: $('#AEC').val() === '1' ? true : false, //回声消除
+        // AGC: $('#AGC').val() === '1' ? true : false, //自动增益
+        // ANS: $('#ANS').val() === '1' ? true : false, //降噪
         videoQuality: parseInt($('#videoQuality').val()) ,
     }
     console.log($('#videoQuality').val())
@@ -89,6 +93,22 @@ async function createStream(publish = true){
     localStream = await zg.createStream({
         camera:config
     });
+    console.log(localStream)
+    // 美颜接口
+    // await zg.setEffectsBeauty(localStream, true, {
+    //     whitenIntensity: 100,
+    //     rosyIntensity: 100,
+    //     smoothIntensity: 100,
+    //     sharpenIntensity: 100
+    // })
+    // let audioTrack = localStream.getAudioTracks()[0];
+    // localStream.removeTrack(audioTrack);
+
+
+    // let volume = await zg.setCaptureVolume(localStream, 30);
+    // console.log('调节采集音量createStream====='+JSON.stringify(volume))
+
+
     // 获取页面的 video 标签
     const localVideo = document.getElementById('previewVideo');
     // stream 为MediaStream对象，开发者可通过赋值给video或audio的srcObject属性进行渲染
@@ -106,13 +126,20 @@ async function createStream(publish = true){
     }
 }
 
-let zg, zgNew, roomID, localStream,
-    streamID = 'streamID-'+new Date().getTime();
+let zg, roomID, localStream,
+    streamID = 'streamID-'+new Date().getTime(), 
+    // streamID = 'streamID-'+userID
+    streamIDList = [];
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
-zg.setLogConfig({logLevel:'debug', remoteLogLevel:'disable'});
+zg.checkSystemRequirements("webRTC").then(res=>{
+    console.log('检查能力===',res)
+});
+
+zg.setLogConfig({logLevel:'debug', remoteLogLevel:'debug'});
+// zg.enableMultiRoom(true)
+zg.setDebugVerbose(false)
 zg.setSoundLevelDelegate(true,1000);
-zgNew = new ZegoExpressEngine(_config.appid,_config.server);
 enumDevices(zg)
 
 //创建房间预览推流
@@ -157,42 +184,72 @@ $('#openRoom').on('click',function(){
     roomID = $('#roomId').val();
     login(zg,roomID);
 })
-//新成成员进入房间拉流
-$('#newMember').on('click',async() => {
-    roomID = $('#roomId').val();
-    userID = new Date().getTime() + '';
-    userName = 'new' + new Date().getTime();
 
-    await login(zgNew,roomID)
-    setTimeout( async ()=>{
-        const remoteStream = await zgNew.startPlayingStream('webrtc1635499856555');
-        remoteVideo = document.getElementById('remoteVideo');
-        remoteVideo.srcObject = remoteStream;
-    },2000)
-    
-})
 //退出房间
 $('#leaveRoom').on('click',function(){
     roomID = $('#roomId').val();
     logoutRoom(zg,roomID,streamID,'previewVideo');
-    if(zgNew){
-        logoutRoom(zgNew,roomID,streamID,'remoteVideo');
-    }
     $('#newMember').attr('disabled',true);
 })
 
+// 设置流附加消息
+$('#streamExtraInfo').on('click', async function(){
+    let res = await zg.setStreamExtraInfo(streamID, '流附加消息')
+    console.log('设置流附加消息====', res);
+})
+
+//关闭正在推流的画面
+$('#muteStreamVideo').on('click', async function(){
+    let res = await zg.mutePublishStreamVideo(localStream, true)
+    console.log('关闭推流画面====', res);
+})
+
+//关闭正在推流的声音
+$('#muteStreamAudio').on('click', async function(){
+    let res = await zg.mutePublishStreamAudio(localStream, true)
+    console.log('关闭推流声音====', res);
+})
+
+//停止拉流画面及声音
+$('#muteAudioAndVideo').on('click', async ()=>{
+    let streamID = streamIDList[0];
+    console.log(streamID)
+    try {
+        let audioRes = await zg.mutePlayStreamAudio(streamID, true); //停止拉流音频的流不能是纯视频
+        console.log('停止拉流音频===', audioRes);
+    } catch (error) {
+        console.log(error)
+    }
+    let videoRes = await zg.mutePlayStreamVideo(streamID, true);
+    console.log('停止拉流视频===', videoRes); //停止拉流视频的流不能是纯音频
+})
+
+// 切换摄像头
 function useVideoDevice(event) {
     console.log('修改video设备')
     console.log(event.target.value)
     deviceID = event.target.value
     zg.useVideoDevice(localStream, deviceID)
 }
+//切换麦克风
 function useAudioDevice(event){
     console.log('修改audio设备')
     console.log(event.target.value)
     deviceID = event.target.value
     zg.useAudioDevice(localStream, deviceID)
 }
+//关闭/打开麦克风
+$('#muteMicrophone').on('click', async () =>{
+    let flag = zg.isMicrophoneMuted();
+    zg.muteMicrophone(!flag);
+    console.log(`${flag ? '打开' : '关闭'}麦克风成功`)
+})
+
+// 调节采集音量
+$('#setCaptureVolume').on('click', async function(){
+    let volume = await zg.setCaptureVolume(localStream, 30);
+    console.log('调节采集音量====='+JSON.stringify(volume))
+})
 
 // 房间状态更新回调
 zg.on('roomStateUpdate', (roomID,state,errorCode,extendedData) => {
@@ -219,41 +276,84 @@ zg.on('roomUserUpdate', (roomID, updateType, userList) => {
         JSON.stringify(userList),
     );
 });
+// 房间在线人数
+zg.on('roomOnlineUserCountUpdate',(roomID, count) => {
+    console.log('%c' + count, 'font-size: 20px')
+})
 
 // 流状态更新回调
 zg.on('roomStreamUpdate', async (roomID, updateType, streamList, extendedData) => {
+    console.log('%c' + updateType, 'font-size: 50px')
+    console.log(streamList)
     if (updateType == 'ADD') {
         console.log('%c ADD', 'font-size: 50px')
         // 流新增，开始拉流
-        
+        streamList.forEach(async(item) => {
+            let remoteStream = await zg.startPlayingStream(item.streamID)
+            let video = document.createElement('video');
+            video.srcObject = remoteStream;
+            video.setAttribute('streamid',item.streamID)
+            video.setAttribute('id','remoteVideo_'+item.streamID)
+            video.setAttribute('muted',true)
+            video.autoplay = true;
+            streamIDList.push(item.streamID)
+            document.getElementById('remoteVideo').append(video);
+        })
+
     } else if (updateType == 'DELETE') {
         // 流删除，停止拉流
-        console.log('%c DELETE', 'font-size: 50px')
+        console.log('%c DELETE', 'font-size: 20px')
+        streamList.forEach(async(item) => {
+            await zg.stopPlayingStream(item.streamID)
+            document.getElementById('remoteVideo_'+item.streamID).srcObject = null;
+        })
     }
 });
 
-zg.on('publisherStateUpdate', result => {
-    // 推流状态更新回调
-    // ... 
-    console.log(result)
-})
+
 
 zg.on('publishQualityUpdate', (streamID, stats) => {
     // 推流质量回调
     // ... 
+    // console.log('%c' + streamID+'===='+ JSON.stringify(stats), 'font-size: 20px')
 })
-zg.on('soundLevelUpdate', (data) => {
-    // 推流质量回调
+zg.on('publisherStateUpdate', async (result) => {
+    // 推流状态更新回调
     // ... 
-    console.log('%c' + data[0].type, 'font-size: 20px')
+    console.log('%c' + JSON.stringify(result), 'font-size: 20px')
+    if(result.state === 'PUBLISHING'){
+        // let volume = await zg.setCaptureVolume(localStream, 30);
+        // console.log('调节采集音量publisherStateUpdate====='+JSON.stringify(volume))
+    }
+})
+zg.on('playQualityUpdate', (streamID, stats) => {
+    // 拉流质量回调
+    // ... 
+    // console.log('%c' + streamID+'===='+ JSON.stringify(stats), 'font-size: 20px')
+})
+zg.on('playerStateUpdate', (result) => {
+    // 拉流状态更新回调
+    // ... 
+    // console.log('%c' + JSON.stringify(result), 'font-size: 20px')
 })
 
-//推流端音频开/关
-$('#audioList').on('change',() => {
-    console.log($('#audioList').val())
-    let mute = $('#audioList').val() == '0' ? true : false; // true 表示不发送视频流
-    zg.mutePublishStreamAudio(localStream,mute)
+zg.on('soundLevelUpdate', (data) => {
+    // ... 
+    data.forEach(item => {
+        // console.log('%c' + item.type+'==='+item.soundLevel, 'font-size: 20px')
+    })
 })
+
+zg.on('capturedSoundLevelUpdate', (soundLevel) => {
+    // ... 
+    // console.log('%c' + soundLevel, 'font-size: 20px')
+})
+//推流端音频开/关
+// $('#audioList').on('change',() => {
+//     console.log($('#audioList').val())
+//     let mute = $('#audioList').val() == '0' ? true : false; // true 表示不发送视频流
+//     zg.mutePublishStreamAudio(localStream,mute)
+// })
 
 //推流端摄像头开/关
 // $('#videoList').on('change',() => {
@@ -264,6 +364,25 @@ $('#audioList').on('change',() => {
 // })
 
 //拉流端监听
-zgNew.on('remoteCameraStatusUpdate', (streamID, status) => {
+zg.on('remoteCameraStatusUpdate', (streamID, status) => {
     console.log(streamID + '---' + status) //OPEN || MUTE 开 / 关
+})
+
+// 流附加消息
+zg.on('streamExtraInfoUpdate', (roomID, streamList) => {
+    console.log('extraInfo====', streamList[0].streamID, streamList[0].extraInfo);
+})
+
+//监听音频设备
+zg.on('audioDeviceStateChanged', (updateType, deviceType, deviceInfo) =>{
+    console.log('%c 设备改变' + updateType+'===='+ deviceType+ '====' +JSON.stringify(deviceInfo), 'font-size: 20px')
+})
+zg.on('deviceError', (errorCode, deviceName)=>{
+    console.log('%c 设备' + errorCode+'===='+ deviceName, 'font-size: 20px')
+})
+
+zg.on("tokenWillExpire", function(roomID){
+    console.log('tokenWillExpire==',roomID);
+    let token = '03AAAAAGHesQIAEHNhNTQ5eTU5dWVxdWl2MncAoFZEutet8GsO8RPnlKbnJfXoPeTK+QzJy+IqhwyGQ16B8S6yAt6YUMOjKo9ERJ5GnR6O4iyQTkt1hGtVKRF2zgq0p2VJVtNr7VW6SBI8y7lSKQrIMIk7g7DJjA3vNNTdDwv6dZuuER9u1b1krtRYk2VLExsL+KWSyvTmY4Aq3ZVXupxpCtWoV/DaqGTWC6zQQtSVAy5MychoTPYHOdOJopA='
+    zg.renewToken(token,roomID);
 })

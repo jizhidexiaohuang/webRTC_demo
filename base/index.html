@@ -191,10 +191,16 @@
             <button type="button" id="createRoom" class="btn btn-primary btn-sm">创建房间预览推流</button>
             <button type="button" id="createRoomNoPublish" class="btn btn-primary btn-sm">创建房间只预览</button>
             <button type="button" id="publishStream" class="btn btn-primary btn-sm">推流</button>
+            <button type="button" id="streamExtraInfo" class="btn btn-primary btn-sm">推流成功后设置流附加消息</button>
+            <button type="button" id="muteStreamVideo" class="btn btn-primary btn-sm">关闭正在推流的画面</button>
+            <button type="button" id="muteStreamAudio" class="btn btn-primary btn-sm">关闭正在推流的声音</button>
+            <button type="button" id="muteMicrophone" class="btn btn-primary btn-sm">关闭/打开麦克风</button>
+            <button type="button" id="setCaptureVolume" class="btn btn-primary btn-sm">调节采集音量</button>
             <button type="button" id="openRoom" class="btn btn-primary btn-sm">进入房间</button>
+            <button type="button" id="muteAudioAndVideo" class="btn btn-primary btn-sm">停止拉流画面及声音</button>
             <button type="button" id="changeVideoConfig" class="btn btn-primary btn-sm">改变分辨率</button>
             <button type="button" id="leaveRoom" class="btn btn-secondary btn-sm">退出</button>
-            <button type="button" id="newMember" class="btn btn-primary btn-sm" >新用户进入房间拉流</button>
+            <!-- <button type="button" id="newMember" class="btn btn-primary btn-sm" >新用户进入房间拉流</button> -->
             <!-- <button type="button" id="createRoomCdn" class="btn btn-primary btn-sm">创建房间(转推cdn)</button> -->
             <!-- <button type="button" id="toggleCamera" class="btn btn-primary btn-sm enableCamera">启用/关闭摄像头</button> -->
             <!-- <button type="button" id="toggleSpeaker" class="btn btn-primary btn-sm enableMicrophone">启用/关闭麦克风</button> -->
@@ -223,9 +229,9 @@
           </div>
 
 
-          <div class="col-sm-6 remoteVideo">
-            <label id="remoteLabel" style="position: absolute;" class="text-white">remote-video</label>
-            <video id="remoteVideo" autoplay muted playsinline></video>
+          <div class="col-sm-6 remoteVideo" id="remoteVideo">
+            <!-- <label id="remoteLabel" style="position: absolute;" class="text-white">remote-video</label> -->
+            <!-- <video id="remoteVideo" autoplay muted playsinline></video> -->
           </div>
         </div>
       </div>
@@ -234,7 +240,8 @@
   
   </body>
   <script src="../assets/js/jquery-3.3.1.min.js"></script>
-  <script src="../assets/js/ZegoExpressWebRTC-2.12.3.js"></script>
+  <!-- <script src="../assets/js/ZegoExpressWebRTC-2.13.0.js"></script> -->
+  <script src="../assets/js/ZegoExpressWebRTC-2.10.1.js"></script>
   <!-- <script src="../assets/js/ZegoExpressWebRTC-2.10.1.js"></script> -->
   <!-- <script src="../assets/js/ZegoExpressWhiteboardWeb.js"></script> -->
   <script src="./base.js"></script>
