@@ -40,8 +40,6 @@ function logoutRoom(zg,roomID,streamID,domId){
 async function enumDevices(zg) {
     const audioInputList = [],
           videoInputList = [];
-    let result = await zg.checkSystemRequirements();
-    console.log(result)
     const deviceInfo = await zg.enumDevices();
     console.log(deviceInfo)
     deviceInfo &&
@@ -134,15 +132,16 @@ let zg, roomID, localStream,
     streamIDList = [];
 //初始化
 zg = new ZegoExpressEngine(_config.appid,_config.server);
-zg.checkSystemRequirements("webRTC").then(res=>{
+zg.checkSystemRequirements().then(res=>{
     console.log('检查能力===',res)
+    enumDevices(zg)
 });
 
 zg.setLogConfig({logLevel:'debug', remoteLogLevel:'debug'});
 // zg.enableMultiRoom(true)
 zg.setDebugVerbose(false)
 zg.setSoundLevelDelegate(true,1000);
-enumDevices(zg)
+
 
 //创建房间预览推流
 $('#createRoom').on('click',function(){
