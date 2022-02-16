@@ -40,6 +40,8 @@ function logoutRoom(zg,roomID,streamID,domId){
 async function enumDevices(zg) {
     const audioInputList = [],
           videoInputList = [];
+    let result = await zg.checkSystemRequirements();
+    console.log(result)
     const deviceInfo = await zg.enumDevices();
     console.log(deviceInfo)
     deviceInfo &&
