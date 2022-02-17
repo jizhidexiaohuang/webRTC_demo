@@ -1,5 +1,5 @@
-// var appID = 1739272706, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
 var appID = 1739272706, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
+// var appID = 173230341, // 必填，应用id，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
     _config = {
         appid: appID * 1,
         server: 'wss://webliveroom-test.zego.im/ws',//必填，接入服务器地址，请从 即构管理控制台-https://console.zego.im/acount/register 或邮件中获取
