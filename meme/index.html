@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主播页面</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="row-btn" style="margin:10px">
+        <input
+            type="text"
+            class="form-control d-inline"
+            style="width:200px;margin-right:10px"
+            id="roomid"
+            style="width: 60%"
+            placeholder="请输入房间id"
+        />
+        <button id="startPublish" class="btn btn-primary btn-sm">开始推流</button>
+        <button onclick="newAudience()" class="btn btn-primary btn-sm">新增一个观众进入房间</button>
+        <input
+            type="text"
+            class="form-control d-inline"
+            style="width:200px;margin-right:10px"
+            id="lianmai-streamid"
+            style="width: 60%"
+            placeholder="请输入连麦主播的streamId"
+        />
+        <button onclick="lianmaiPK()" class="btn btn-primary btn-sm" disabled="true" id="lianmai">发起与主播的连麦</button>
+        <button onclick="stopLianmai()" id="stop-lianmai" disabled="true" class="btn btn-primary btn-sm">结束与主播的连麦</button>
+        <button onclick="enableCamera()" class="btn btn-primary btn-sm">关闭摄像头</button>
+        <button onclick="enableMic()" class="btn btn-primary btn-sm">关闭麦克风</button>
+        <button onclick="change()" class="btn btn-primary btn-sm">修改推流参数</button>
+        <button onclick="pushStream()" class="btn btn-primary btn-sm">再推一条456的流</button>
+        <button onclick="startMixing()" class="btn btn-primary btn-sm">开始混流</button>
+        <button onclick="stopMixing()" class="btn btn-primary btn-sm">结束混流</button>
+        <br/>
+        <!-- <input
+            type="text"
+            class="form-control d-inline"
+            style="width:200px;margin-right:10px"
+            id="andience-streamid"
+            style="width: 60%"
+            placeholder="请输入连麦观众的streamId"
+        />
+        <button onclick="lianmaiAudience()" class="btn btn-primary btn-sm" id="lianmai-audience">发起与观众的连麦</button>
+        <button onclick="stopLianmaiToAudience()" id="stop-lianmai-audience" disabled="true" class="btn btn-primary btn-sm">结束与观众的连麦</button> -->
+        <button onclick="logoutRoom()" class="btn btn-primary btn-sm">退出房间</button>
+    </div>
+    <div class="row-local" style="padding:10px" id="row-local">
+        <p>当前主播====></p>
+        <div class="user-info">
+            <p id="userID"></p>
+            <p id="streamID"></p>
+        </div>
+        <!-- <div class="video">
+            <video autoplay muted playsinline id="localVideo"></video>
+            <span class="video-userid"></span>
+            <span class="video-streamid"></span>
+        </div> -->
+        <div class="user-div" style="padding:10px"></div>
+    </div>
+    <div class="row-remote" style="padding:10px">
+        <p>连麦主播====></p>
+    </div>
+</body>
+</html>
+<!-- <script src="./assets/js/jZego-rtc-1.12.2.js"></script> -->
+<script src="./assets/js/jZego-rtc-2.7.0.js"></script>
+<script src="./index.js"></script>

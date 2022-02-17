@@ -1,0 +1,65 @@
+.btn-sm{
+    margin-right:10px;
+    margin-top: 10px;
+}
+input{
+    height: 32px;
+    margin-top: 10px;
+}
+video{
+    width: 300px;
+    height: auto;
+}
+.user-div{
+    width: 325px;
+    height: 311px;
+    overflow: auto;
+    display: block;
+    float: right;
+    border:1px solid #eee;
+}
+.user-info{
+    height: 70px;
+    width:300px;
+}
+.video{
+    position: relative;
+    display: inline-block;
+    margin-right:10px;
+}
+.video-userid{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: #fff;
+}
+.video-streamid{
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    color: #fff;
+}
+.lianmai-join{
+    position: absolute;
+    right:0px;
+    top:10px;
+    border: 1px solid #ccc;
+    width: 230px;
+    height: auto;
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.tips{
+    position: fixed;
+    right: 0;
+    width: 140px;
+    height: auto;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 10px;
+    background: #fff;
+    color: red;
+    border-radius: 4px;
+}
