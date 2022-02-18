@@ -141,6 +141,7 @@ function createVideoTag(bool, userId, streamId) {
     let video = document.createElement('video');
     video.autoplay = true;
     video.muted = bool;
+    video.controls = true;
     div.appendChild(video);
     div.appendChild(spanUserid);
     div.appendChild(spanStreamid);
