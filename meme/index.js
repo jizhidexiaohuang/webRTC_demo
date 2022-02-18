@@ -64,12 +64,12 @@ btn.onclick = async function () {
             zg.startPreview(localVideo, { video: true, audio: true }, (success) => {
                 console.log('预览成功！', success)
                 // 推流
-                zg.startPublishingStream(streamid = roomid, localVideo);
-                btn.setAttribute('disabled', true)
-                document.getElementById('lianmai').removeAttribute('disabled');
-                document.getElementById('userID').innerHTML = `当前主播userID: ${_config.idName}`
-                document.getElementById('streamID').innerHTML = `当前主播streamID: ${roomid}`
-                lianmaiList.push(streamid)
+                // zg.startPublishingStream(streamid = roomid, localVideo);
+                // btn.setAttribute('disabled', true)
+                // document.getElementById('lianmai').removeAttribute('disabled');
+                // document.getElementById('userID').innerHTML = `当前主播userID: ${_config.idName}`
+                // document.getElementById('streamID').innerHTML = `当前主播streamID: ${roomid}`
+                // lianmaiList.push(streamid)
             }, (error) => {
                 console.log('预览失败！', error)
             })
