@@ -24,7 +24,7 @@ ZegoClient.supportDetection(function (result) {
     if (!result.webRtc) {
         alert('当前浏览器不支持webRTC')
     } else if (!result.capture) {
-        alert('当前浏览器不支持捕获摄像头麦克风设备')
+        alert('resulte.capture=', result.capture)
     } else if (!result.videoDecodeType.H264) {
         alert('浏览器不支持视频H.264编码');
     } else if (!result.videoDecodeType.VP8) {
@@ -63,13 +63,6 @@ btn.onclick = async function () {
             document.getElementsByClassName('row-local')[0].appendChild(div);
             zg.startPreview(localVideo, { video: true, audio: true }, (success) => {
                 console.log('预览成功！', success)
-                // 设置音浪回调
-                zg.setSoundLevelDelegate(true, 200);
-                zg.onSoundLevelUpdate = (soundLevelList) => {
-                    soundLevelList.forEach(item => {
-                        // console.log('%c' + item.type+'==='+item.soundLevel, 'font-size: 20px')
-                    })
-                };
                 // 推流
                 zg.startPublishingStream(streamid = roomid, localVideo);
                 btn.setAttribute('disabled', true)
@@ -77,18 +70,6 @@ btn.onclick = async function () {
                 document.getElementById('userID').innerHTML = `当前主播userID: ${_config.idName}`
                 document.getElementById('streamID').innerHTML = `当前主播streamID: ${roomid}`
                 lianmaiList.push(streamid)
-                // 转推cdn  rtmp://test.aliyun.zego.im/livestream/{流名}
-                zg.publishTarget({
-                    type: 'addpush',
-                    streamId: roomid,
-                    pushUrl: `rtmp://publish-memetest-aliyun.zego.im/memetest/${roomid}`
-                }, (success) => {
-                    console.log('转推成功==', success, 'rtmp://publish-memetest-aliyun.zego.im/memetest' + roomid)
-                    console.log('拉流cdn地址==', `https://play-memetest-aliyun.zego.im/memetest/${roomid}.flv`)
-                    setReliable()
-                }, (err) => {
-                    console.log('转推失败==', err)
-                })
             }, (error) => {
                 console.log('预览失败！', error)
             })
