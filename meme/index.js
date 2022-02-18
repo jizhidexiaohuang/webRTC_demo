@@ -19,20 +19,20 @@ bindListener();
 zg.setUserStateUpdate(true);
 
 // 1. 检测设备
-ZegoClient.supportDetection(function (result) {
-    console.log(result)
-    if (!result.webRtc) {
-        alert('当前浏览器不支持webRTC')
-    } else if (!result.capture) {
-        alert('resulte.capture=', result.capture)
-    } else if (!result.videoDecodeType.H264) {
-        alert('浏览器不支持视频H.264编码');
-    } else if (!result.videoDecodeType.VP8) {
-        alert('浏览器不支持视频VP8编码');
-    }
-}, function (err) {
-    console.error(err);
-})
+// ZegoClient.supportDetection(function (result) {
+//     console.log(result)
+//     if (!result.webRtc) {
+//         alert('当前浏览器不支持webRTC')
+//     } else if (!result.capture) {
+//         alert('resulte.capture=', result.capture)
+//     } else if (!result.videoDecodeType.H264) {
+//         alert('浏览器不支持视频H.264编码');
+//     } else if (!result.videoDecodeType.VP8) {
+//         alert('浏览器不支持视频VP8编码');
+//     }
+// }, function (err) {
+//     console.error(err);
+// })
 // 2. 获取token，登入房间
 async function getToken() {
     let response = await fetch(tokenUrl + '?app_id=' + _config.appid + '&id_name=' + _config.idName);
