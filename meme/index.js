@@ -10,7 +10,7 @@ let _config = {
 let tokenUrl = 'https://wsliveroom-alpha.zego.im:8282/token';
 let roomid;
 let token = '';
-let localVideo = document.getElementById('localVideo');
+let localVideo;
 
 zg = new ZegoClient();
 zg.config(_config);
