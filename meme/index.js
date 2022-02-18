@@ -60,6 +60,7 @@ btn.onclick = async function () {
             document.getElementsByClassName('row-local')[0].appendChild(div);
             zg.startPreview(localVideo, { video: true, audio: true }, (success) => {
                 console.log('预览成功！', success)
+                localVideo.play();
                 // 推流
                 zg.startPublishingStream(streamid = roomid, localVideo);
             }, (error) => {
